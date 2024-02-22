@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SistemaGestionData;
+﻿using SistemaGestionData;
 using SistemaGestionEntidades;
 
 namespace SistemaGestionBusiness
@@ -25,9 +20,17 @@ namespace SistemaGestionBusiness
             ProductoData.CrearProducto(producto);
         }
 
-        public static void ModificarProducto(Producto producto)
+        public static bool ModificarProducto(Producto producto)
         {
-            ProductoData.ModificarProducto(producto);
+            try
+            {
+                ProductoData.ModificarProducto(producto);
+                return true; 
+            }
+            catch (Exception)
+            {
+                return false; 
+            }
         }
 
         public static void EliminarProducto(int IdProducto)

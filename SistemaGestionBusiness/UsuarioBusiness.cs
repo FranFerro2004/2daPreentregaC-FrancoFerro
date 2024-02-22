@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SistemaGestionData;
+﻿using SistemaGestionData;
 using SistemaGestionEntidades;
 
 
@@ -26,9 +21,22 @@ namespace SistemaGestionBusiness
             UsuarioData.CrearUsuario(usuario);
         }
 
-        public static void ModificarUsuario(Usuario usuario)
+        public static bool ModificarUsuario(Usuario usuario)
         {
-            UsuarioData.ModificarUsuario(usuario);
+            try 
+            {
+
+                UsuarioData.ModificarUsuario(usuario);
+
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+            
+                
         }
 
         public static void EliminarUsuario(int Id)

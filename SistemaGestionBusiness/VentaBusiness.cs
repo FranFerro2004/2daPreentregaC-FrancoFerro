@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SistemaGestionData;
+﻿using SistemaGestionData;
 using SistemaGestionEntidades;
 
 namespace SistemaGestionBusiness
@@ -25,9 +20,20 @@ namespace SistemaGestionBusiness
             VentaData.CrearVenta(venta);
         }
 
-        public static void ModificarVenta(Venta venta)
+        public static bool ModificarVenta(Venta venta)
         {
-            VentaData.ModificarVenta(venta);
+            try 
+            {
+
+                VentaData.ModificarVenta(venta);
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         public static void EliminarVenta(int IdVenta)

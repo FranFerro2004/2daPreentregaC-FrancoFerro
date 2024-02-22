@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UsuarioData;
-using System.Collections.Generic;
-using ApiC_.Models;
+using SistemaGestionBusiness;
+using SistemaGestionEntidades;
 
 
 namespace ApiC_.Controllers
@@ -16,7 +15,7 @@ namespace ApiC_.Controllers
         public List<Usuario> ListarTodosUsuarios()
         {
 
-            return UsuarioData.UsuarioData.ListarUsuarios();
+            return UsuarioBusiness.ListarUsuarios();
 
         }
 
@@ -25,16 +24,16 @@ namespace ApiC_.Controllers
         public void ObtenerUsuarioPorId(int IdUsuario)
         {
 
-            UsuarioData.UsuarioData.ObtenerUsuario(IdUsuario);
+            UsuarioBusiness.ObtenerUsuario(IdUsuario);
 
         }
 
         [HttpDelete ("/BorrarUsuarioPorId/{id}")]
 
-        public void BorrarUsuarioPorId(Usuario usuario)
+        public void BorrarUsuarioPorId(int id)
         {
 
-            UsuarioData.UsuarioData.EliminarUsuario(usuario);
+            UsuarioBusiness.EliminarUsuario(id);
 
         }
 
@@ -46,7 +45,7 @@ namespace ApiC_.Controllers
                 return BadRequest("Datos de usuario no válidos");
             }
 
-            bool modificacionExitosa = UsuarioData.UsuarioData.ModificarUsuario(usuario);
+            bool modificacionExitosa = UsuarioBusiness.ModificarUsuario(usuario);
 
             if (modificacionExitosa)
             {

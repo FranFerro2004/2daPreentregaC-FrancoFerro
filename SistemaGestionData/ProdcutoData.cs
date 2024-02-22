@@ -1,9 +1,9 @@
-﻿
+﻿using SistemaGestionEntidades;
 using System.Data.SqlClient;
 using System.Data;
-using ApiC_.Models;
 
-namespace ProductoData
+
+namespace SistemaGestionData
 {
 
     public static class ProductoData
@@ -132,46 +132,36 @@ namespace ProductoData
         }
 
 
-        public static bool ModificarProducto(Producto producto)
+        public static void ModificarProducto(Producto producto)
         {
-            try
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+            var query = "UPDATE Productos " +
+                        "SET Descripcion = @Descripcion, " +
+                        "Costo = @Costo, " +
+                        "PrecioVenta = @PrecioVenta, " +
+                        "Stock = @Stock, " +
+                        "IdUsuario = @IdUsuario " +
+                        "WHERE Id = @Id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-                var query = "UPDATE Productos " +
-                            "SET Descripcion = @Descripcion, " +
-                            "Costo = @Costo, " +
-                            "PrecioVenta = @PrecioVenta, " +
-                            "Stock = @Stock, " +
-                            "IdUsuario = @IdUsuario " +
-                            "WHERE Id = @Id";
+                connection.Open();
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand comando = new SqlCommand(query, connection))
                 {
-                    connection.Open();
+                    comando.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = producto.Id });
+                    comando.Parameters.Add(new SqlParameter("@Descripcion", SqlDbType.VarChar) { Value = producto.Descripcion });
+                    comando.Parameters.Add(new SqlParameter("@Costo", SqlDbType.Float) { Value = producto.Costo });
+                    comando.Parameters.Add(new SqlParameter("@PrecioVenta", SqlDbType.Float) { Value = producto.PrecioVenta });
+                    comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.BigInt) { Value = producto.Stock });
+                    comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.BigInt) { Value = producto.IdUsuario });
 
-                    using (SqlCommand comando = new SqlCommand(query, connection))
-                    {
-                        comando.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = producto.Id });
-                        comando.Parameters.Add(new SqlParameter("@Descripcion", SqlDbType.VarChar) { Value = producto.Descripcion });
-                        comando.Parameters.Add(new SqlParameter("@Costo", SqlDbType.Float) { Value = producto.Costo });
-                        comando.Parameters.Add(new SqlParameter("@PrecioVenta", SqlDbType.Float) { Value = producto.PrecioVenta });
-                        comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.BigInt) { Value = producto.Stock });
-                        comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.BigInt) { Value = producto.IdUsuario });
-
-                        comando.ExecuteNonQuery();
-                    }
-
-                    connection.Close();
+                    comando.ExecuteNonQuery();
                 }
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
+                connection.Close();
             }
         }
-
 
 
 

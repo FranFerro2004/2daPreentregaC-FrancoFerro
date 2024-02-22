@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductoData;
-using System.Collections.Generic;
-using ApiC_.Models;
+using SistemaGestionData;
+using SistemaGestionEntidades;
+using SistemaGestionBusiness;
 
 namespace ApiC_.Controllers
 {
@@ -12,13 +12,13 @@ namespace ApiC_.Controllers
         [HttpGet("/ListarProductos")]
         public List<Producto> ListarTodosProductos()
         {
-            return ProductoData.ProductoData.ListarProductos();
+            return ProductoBusiness.ListarProductos();
         }
 
         [HttpGet("/ObtenerProducto/{id}")]
         public IActionResult ObtenerProductoPorId(int IdProducto)
         {
-            var producto = ProductoData.ProductoData.ObtenerProducto(IdProducto);
+            var producto = ProductoBusiness.ObtenerProducto(IdProducto);
 
             if (producto == null)
             {
@@ -29,10 +29,10 @@ namespace ApiC_.Controllers
         }
 
         [HttpDelete("/BorrarProductoPorId/{id}")]
-        public IActionResult BorrarProductoPorId(int id)
+        public IActionResult BorrarProductoPorId(int IdProducto)
         {
            
-            ProductoData.ProductoData.EliminarProducto(new Producto { Id = id });
+            ProductoBusiness.EliminarProducto(IdProducto);
 
             
             return NoContent(); 
@@ -46,7 +46,7 @@ namespace ApiC_.Controllers
                 return BadRequest("Datos de producto no válidos");
             }
 
-            bool modificacionExitosa = ProductoData.ProductoData.ModificarProducto(producto);
+            bool modificacionExitosa = ProductoBusiness.ModificarProducto(producto);
 
             if (modificacionExitosa)
             {
@@ -66,7 +66,7 @@ namespace ApiC_.Controllers
                 return BadRequest("Datos de producto no válidos");
             }
 
-            ProductoData.ProductoData.CrearProducto(producto);
+            ProductoBusiness.CrearProducto(producto);
 
             return CreatedAtAction(nameof(ObtenerProductoPorId), new { id = producto.Id }, producto);
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SistemaGestionData;
-using System.Collections.Generic;
-using ApiC_.Models;
+using SistemaGestionBusiness;
+using SistemaGestionEntidades;
 
 namespace ApiC_.Controllers
 {
@@ -12,13 +11,13 @@ namespace ApiC_.Controllers
         [HttpGet("/ListarVentas")]
         public List<Venta> ListarTodasVentas()
         {
-            return VentaData.ListarVentas();
+            return VentaBusiness.ListarVentas();
         }
 
         [HttpGet("/ObtenerVenta/{id}")]
         public IActionResult ObtenerVentaPorId(int IdVenta)
         {
-            var venta = VentaData.ObtenerVenta(IdVenta);
+            var venta = VentaBusiness.ObtenerVenta(IdVenta);
 
             if (venta == null)
             {
@@ -31,7 +30,7 @@ namespace ApiC_.Controllers
         [HttpDelete("/BorrarVentaPorId/{id}")]
         public IActionResult BorrarVentaPorId(int id)
         {
-            VentaData.EliminarVenta(new Venta { ID = id });
+            VentaBusiness.EliminarVenta(id);
 
             return NoContent();
         }
@@ -44,7 +43,7 @@ namespace ApiC_.Controllers
                 return BadRequest("Datos de venta no válidos");
             }
 
-            bool modificacionExitosa = VentaData.ModificarVenta(venta);
+            bool modificacionExitosa = VentaBusiness.ModificarVenta(venta);
 
             if (modificacionExitosa)
             {
@@ -64,7 +63,7 @@ namespace ApiC_.Controllers
                 return BadRequest("Datos de venta no válidos");
             }
 
-            VentaData.CrearVenta(venta);
+            VentaBusiness.CrearVenta(venta);
 
             return CreatedAtAction(nameof(ObtenerVentaPorId), new { id = venta.ID }, venta);
         }
