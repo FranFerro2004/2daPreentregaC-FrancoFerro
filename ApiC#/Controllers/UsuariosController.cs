@@ -21,11 +21,16 @@ namespace ApiC_.Controllers
 
         [HttpGet("/ObtenerUsuario/{id}")]
 
-        public void ObtenerUsuarioPorId(int IdUsuario)
+        public IActionResult ObtenerUsuarioPorId(int IdUsuario)
         {
+            var usuario = UsuarioBusiness.ObtenerUsuario(IdUsuario);
 
-            UsuarioBusiness.ObtenerUsuario(IdUsuario);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(usuario);
         }
 
         [HttpDelete ("/BorrarUsuarioPorId/{id}")]
@@ -55,6 +60,19 @@ namespace ApiC_.Controllers
             {
                 return StatusCode(500, "Error durante la modificación del usuario");
             }
+        }
+
+        [HttpPost("/CrearUsuario")]
+        public IActionResult CrearProducto(Usuario usuario)
+        {
+            if (usuario == null)
+            {
+                return BadRequest("Datos de producto no válidos");
+            }
+
+            UsuarioBusiness.CrearUsuario(usuario);
+
+            return CreatedAtAction(nameof(ObtenerUsuarioPorId), new { id = usuario.Id }, usuario);
         }
 
 
