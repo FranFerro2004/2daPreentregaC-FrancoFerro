@@ -11,7 +11,7 @@ namespace SistemaGestionData
             List<Venta> lista = new List<Venta>();
 
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Comentarios, IdUsuario FROM Ventas WHERE Id = @IdVenta";
+            var query = "SELECT Id, Comentarios, IdUsuario FROM Venta WHERE Id = @IdVenta";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -52,7 +52,7 @@ namespace SistemaGestionData
         {
             List<Venta> lista = new List<Venta>();
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Comentarios, IdUsuario FROM Ventas";
+            var query = "SELECT Id, Comentarios, IdUsuario FROM Venta";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -85,7 +85,7 @@ namespace SistemaGestionData
         public static void CrearVenta(Venta venta)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "INSERT INTO Ventas (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)";
+            var query = "INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -106,7 +106,7 @@ namespace SistemaGestionData
         public static void ModificarVenta(Venta venta)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "UPDATE Ventas SET Comentarios = @Comentarios, IdUsuario = @IdUsuario WHERE Id = @Id";
+            var query = "UPDATE Venta SET Comentarios = @Comentarios, IdUsuario = @IdUsuario WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -128,7 +128,7 @@ namespace SistemaGestionData
         public static void EliminarVenta(Venta venta)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "DELETE FROM Ventas WHERE Id = @Id";
+            var query = "DELETE FROM Venta WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
