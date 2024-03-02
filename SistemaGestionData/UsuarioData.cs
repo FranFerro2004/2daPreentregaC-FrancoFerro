@@ -10,8 +10,8 @@ namespace SistemaGestionData
         {
             List<Usuario> lista = new List<Usuario>();
 
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contrasena, Mail FROM Usuarios WHERE Id = @IdUsuario";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail FROM Usuario WHERE Id = @IdUsuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -33,7 +33,7 @@ namespace SistemaGestionData
                                 usuario.Nombre = dr["Nombre"].ToString();
                                 usuario.Apellido = dr["Apellido"].ToString();
                                 usuario.NombreUsuario = dr["NombreUsuario"].ToString();
-                                usuario.Contrasena = dr["Contrasena"].ToString();
+                                usuario.Contrasena = dr["Contraseña"].ToString();
                                 usuario.Mail = dr["Mail"].ToString();
                                 lista.Add(usuario);
                             }
@@ -51,8 +51,8 @@ namespace SistemaGestionData
         {
             List<Usuario> lista = new List<Usuario>();
 
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contrasena, Mail FROM Usuarios";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail FROM Usuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -71,7 +71,7 @@ namespace SistemaGestionData
                                 usuario.Nombre = dr["Nombre"].ToString();
                                 usuario.Apellido = dr["Apellido"].ToString();
                                 usuario.NombreUsuario = dr["NombreUsuario"].ToString();
-                                usuario.Contrasena = dr["Contrasena"].ToString();
+                                usuario.Contrasena = dr["Contraseña"].ToString();
                                 usuario.Mail = dr["Mail"].ToString();
                                 lista.Add(usuario);
                             }
@@ -87,9 +87,9 @@ namespace SistemaGestionData
 
         public static void CrearUsuario(Usuario usuario)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "INSERT INTO Usuarios (Nombre, Apellido, NombreUsuario, Contrasena, Mail)" +
-                        "VALUES (@Nombre, @Apellido, @NombreUsuario, @Contrasena, @Mail)";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "INSERT INTO Usuario (Nombre, Apellido, NombreUsuario, Contraseña, Mail)" +
+                        "VALUES (@Nombre, @Apellido, @NombreUsuario, @Contraseña, @Mail)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -100,8 +100,10 @@ namespace SistemaGestionData
                     comando.Parameters.Add(new SqlParameter("@Nombre", SqlDbType.VarChar) { Value = usuario.Nombre });
                     comando.Parameters.Add(new SqlParameter("@Apellido", SqlDbType.VarChar) { Value = usuario.Apellido });
                     comando.Parameters.Add(new SqlParameter("@NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario });
-                    comando.Parameters.Add(new SqlParameter("@Contrasena", SqlDbType.VarChar) { Value = usuario.Contrasena });
+                    comando.Parameters.Add(new SqlParameter("@Contraseña", SqlDbType.VarChar) { Value = usuario.Contrasena });
                     comando.Parameters.Add(new SqlParameter("@Mail", SqlDbType.VarChar) { Value = usuario.Mail });
+                    
+
 
                     comando.ExecuteNonQuery();
                 }
@@ -112,12 +114,12 @@ namespace SistemaGestionData
 
         public static void ModificarUsuario(Usuario usuario)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "UPDATE Usuarios " +
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "UPDATE Usuario " +
                         "SET Nombre = @Nombre, " +
                         "Apellido = @Apellido, " +
                         "NombreUsuario = @NombreUsuario, " +
-                        "Contrasena = @Contrasena, " +
+                        "Contraseña = @Contrasena, " +
                         "Mail = @Mail " +
                         "WHERE Id = @Id";
 
@@ -141,10 +143,12 @@ namespace SistemaGestionData
             }
         }
 
+
+
         public static void EliminarUsuario(Usuario usuario)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "DELETE FROM Usuarios WHERE Id = @Id";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "DELETE FROM Usuario WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

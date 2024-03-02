@@ -10,8 +10,8 @@ namespace SistemaGestionData
         {
             List<ProductoVendido> lista = new List<ProductoVendido>();
 
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "SELECT Id, IdProducto, Stock, IdVenta FROM ProductosVendidos WHERE Id = @IdProductoVendido";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "SELECT Id, IdProducto, Stock, IdVenta FROM ProductoVendido WHERE Id = @IdProductoVendido";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -51,8 +51,8 @@ namespace SistemaGestionData
         {
             List<ProductoVendido> lista = new List<ProductoVendido>();
 
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "SELECT Id, IdProducto, Stock, IdVenta FROM ProductosVendidos";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "SELECT Id, IdProducto, Stock, IdVenta FROM ProductoVendido";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -83,8 +83,8 @@ namespace SistemaGestionData
 
         public static void CrearProductoVendido(ProductoVendido productoVendido)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "INSERT INTO ProductosVendidos (IdProducto, Stock, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "INSERT INTO ProductoVendido (IdProducto, Stock, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -104,8 +104,8 @@ namespace SistemaGestionData
 
         public static void ModificarProductoVendido(ProductoVendido productoVendido)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
-            var query = "UPDATE ProductosVendidos SET IdProducto = @IdProducto, Stock = @Stock, IdVenta = @IdVenta WHERE Id = @Id";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "UPDATE ProductoVendido SET IdProducto = @IdProducto, Stock = @Stock, IdVenta = @IdVenta WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -126,7 +126,7 @@ namespace SistemaGestionData
 
         public static void EliminarProductoVendido(ProductoVendido productoVendido)
         {
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
             var query = "DELETE FROM ProductosVendidos WHERE Id = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
