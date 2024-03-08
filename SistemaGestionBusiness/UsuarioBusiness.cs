@@ -6,9 +6,16 @@ namespace SistemaGestionBusiness
 {
     public static class UsuarioBusiness
     {
-        public static List<Usuario> ObtenerUsuario(int IdUsuario)
+
+        public static Usuario ObtenerUsuarioPorUsuarioYPassword(string usuario, string password)
         {
-            return UsuarioData.ObtenerUsuario(IdUsuario);
+            return UsuarioData.ObtenerUsuarioPorUsuarioYPassword(usuario, password);
+        }
+
+
+        public static List<Usuario> ObtenerUsuarioPorNombreDeUsuario(string nombreUsuario)
+        {
+            return UsuarioData.ObtenerUsuarioPorNombre(nombreUsuario);
         }
 
         public static List<Usuario> ListarUsuarios()

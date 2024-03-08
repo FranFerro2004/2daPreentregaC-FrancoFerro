@@ -6,8 +6,8 @@ using SistemaGestionEntidades;
 namespace ApiC_.Controllers
 {
     [ApiController]
-    [Route("api/Usuarios")]
-
+    [Route("api/[controller]")]
+    
     public class UsuariosController : Controller
     {
 
@@ -19,11 +19,11 @@ namespace ApiC_.Controllers
 
         }
 
-        [HttpGet("/ObtenerUsuario/{id}")]
+        [HttpGet("{NombreUsuario}")]
 
-        public IActionResult ObtenerUsuarioPorId(int IdUsuario)
+        public IActionResult ObtenerUsuarioPorNombreDeUsuario(string nombrUsuario)
         {
-            var usuario = UsuarioBusiness.ObtenerUsuario(IdUsuario);
+            var usuario = UsuarioBusiness.ObtenerUsuarioPorNombreDeUsuario(nombrUsuario);
 
             if (usuario == null)
             {
@@ -32,6 +32,37 @@ namespace ApiC_.Controllers
 
             return Ok(usuario);
         }
+
+
+        [HttpGet("{usuario}/{password}")]
+        public IActionResult ObtenerUsuarioPorUsuarioYPassword(string usuario, string password)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
+                {
+                    return BadRequest("Usuario o Password están vacíos");
+                }
+
+                var usuarioObtenido = UsuarioBusiness.ObtenerUsuarioPorUsuarioYPassword(usuario, password);
+
+                if (usuarioObtenido != null)
+                {
+                    return Ok(usuarioObtenido);
+                }
+                else
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+            }
+            catch (Exception ex)
+            {
+               
+                Console.WriteLine($"Error en la solicitud: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+
 
         [HttpDelete ("/BorrarUsuarioPorId/{id}")]
 
@@ -42,8 +73,8 @@ namespace ApiC_.Controllers
 
         }
 
-        [HttpPut("/ModificarUsuario")]
-        public IActionResult ModificarUsuario(Usuario usuario)
+        [HttpPut]
+        public IActionResult ActualizarUsuario([FromBody] Usuario usuario)
         {
             if (usuario == null || usuario.Id <= 0)
             {
@@ -59,11 +90,11 @@ namespace ApiC_.Controllers
             else
             {
                 return StatusCode(500, "Error durante la modificación del usuario");
-            }
+            }  
         }
 
-        [HttpPost("/CrearUsuario")]
-        public IActionResult CrearProducto(Usuario usuario)
+        [HttpPost]
+        public IActionResult CrearUsuario([FromBody] Usuario usuario)
         {
             if (usuario == null)
             {
@@ -72,9 +103,9 @@ namespace ApiC_.Controllers
 
             UsuarioBusiness.CrearUsuario(usuario);
 
-            return CreatedAtAction(nameof(ObtenerUsuarioPorId), new { id = usuario.Id }, usuario);
+            return Ok("Usuario credo exitosamente");
         }
 
-
+        
     }
 }

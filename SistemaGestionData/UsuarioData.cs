@@ -6,12 +6,12 @@ namespace SistemaGestionData
 {
     public static class UsuarioData
     {
-        public static List<Usuario> ObtenerUsuario(int IdUsuario)
+        public static List<Usuario> ObtenerUsuarioPorNombre(string nombreUsuario)
         {
             List<Usuario> lista = new List<Usuario>();
 
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail FROM Usuario WHERE Id = @IdUsuario";
+            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail FROM Usuario WHERE NombreUsuario = @nombreUsuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -19,7 +19,7 @@ namespace SistemaGestionData
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
-                    var parametro = new SqlParameter("@IdUsuario", SqlDbType.Int) { Value = IdUsuario };
+                    var parametro = new SqlParameter("@nombreUsuario", SqlDbType.VarChar) { Value = nombreUsuario };
                     comando.Parameters.Add(parametro);
 
                     using (SqlDataReader dr = comando.ExecuteReader())
@@ -46,6 +46,54 @@ namespace SistemaGestionData
 
             return lista;
         }
+
+
+        public static Usuario ObtenerUsuarioPorUsuarioYPassword(string usuario, string password)
+        {
+            Usuario usuarioBuscado = null;
+
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var query = "SELECT Id, Nombre, Apellido, NombreUsuario, Contraseña, Mail FROM Usuario WHERE NombreUsuario = @usuario AND Contraseña = @password";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand comando = new SqlCommand(query, connection))
+                {
+                    comando.Parameters.Add(new SqlParameter("@usuario", SqlDbType.VarChar) { Value = usuario });
+                    comando.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar) { Value = password });
+
+                    using (SqlDataReader dr = comando.ExecuteReader())
+                    {
+                        if (dr.HasRows)
+                        {
+                            dr.Read();
+                            usuarioBuscado = new Usuario
+                            {
+                                Id = Convert.ToInt32(dr["Id"]),  
+                                Nombre = dr["Nombre"].ToString(),
+                                Apellido = dr["Apellido"].ToString(),
+                                NombreUsuario = dr["NombreUsuario"].ToString(),
+                                Contrasena = dr["Contraseña"].ToString(), 
+                                Mail = dr["Mail"].ToString()
+                            };
+                        }
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return usuarioBuscado;
+        }
+
+
+
+
+
+
+
 
         public static List<Usuario> ListarUsuarios()
         {
