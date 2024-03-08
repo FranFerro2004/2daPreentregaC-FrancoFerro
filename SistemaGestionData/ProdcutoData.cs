@@ -60,19 +60,26 @@ namespace SistemaGestionData
 
 
 
-        public static List<Producto> ListarProductos()
+        public static List<Producto> ListarProductosPorIdUsuario(int idUsuario)
         {
 
             List<Producto> lista = new List<Producto>();
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Descripciones, Costo, PrecioVenta, Stock, IdUsuario FROM Producto";
+            var query = "SELECT Id, Descripciones, Costo, PrecioVenta, Stock, IdUsuario FROM Producto WHERE idUsuario = @idUsuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
+
                 {
+
+                    var parametro = new SqlParameter();
+                    parametro.ParameterName = "IdUsuario";
+                    parametro.SqlDbType = SqlDbType.Int;
+                    parametro.Value = idUsuario;
+
                     using (SqlDataReader dr = comando.ExecuteReader())
                     {
                         if (dr.HasRows)

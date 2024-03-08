@@ -10,9 +10,9 @@ namespace SistemaGestionBusiness
             return ProductoData.ObtenerProducto(IdProducto);
         }
 
-        public static List<Producto> ListarProductos()
+        public static List<Producto> ListarProductosPorIdDeUsuario(int idUsuario)
         {
-            return ProductoData.ListarProductos();
+            return ProductoData.ListarProductosPorIdUsuario(idUsuario);
         }
 
         public static void CrearProducto(Producto producto)

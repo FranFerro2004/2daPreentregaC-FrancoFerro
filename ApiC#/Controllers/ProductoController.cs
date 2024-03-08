@@ -6,13 +6,35 @@ using SistemaGestionBusiness;
 namespace ApiC_.Controllers
 {
     [ApiController]
-    [Route("api/Productos")]
+    [Route("api/[controller]")]
+    
     public class ProductosController : Controller
     {
-        [HttpGet("/ListarProductos")]
-        public List<Producto> ListarTodosProductos()
+        [HttpGet("{idUsuario}")]
+        public ActionResult <List<Producto>> ObtenerProductosPorIdDeUsuario(int idUsuario)
         {
-            return ProductoBusiness.ListarProductos();
+            try
+            {
+                if (idUsuario <= 0)
+                {
+                    return BadRequest("Id no puede ser menos o igual a 0");
+                }
+
+                var productos = ProductoBusiness.ListarProductosPorIdDeUsuario(idUsuario);
+
+                if (productos.Count == 0)
+                {
+                    return NotFound($"No se encontraron productos para el usuario con ID {idUsuario}");
+                }
+
+                return productos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
+
+
         }
 
         [HttpGet("/ObtenerProducto/{id}")]
@@ -28,7 +50,7 @@ namespace ApiC_.Controllers
             return Ok(producto); 
         }
 
-        [HttpDelete("/BorrarProductoPorId/{id}")]
+        [HttpDelete("{idProducto}")]
         public IActionResult BorrarProductoPorId(int IdProducto)
         {
            
@@ -38,8 +60,8 @@ namespace ApiC_.Controllers
             return NoContent(); 
         }
 
-        [HttpPut("/ModificarProducto")]
-        public IActionResult ModificarProducto(Producto producto)
+        [HttpPut]
+        public IActionResult ActualizarProducto( [FromBody] Producto producto)
         {
             if (producto == null || producto.Id <= 0)
             {
@@ -58,8 +80,8 @@ namespace ApiC_.Controllers
             }
         }
 
-        [HttpPost("/CrearProducto")]
-        public IActionResult CrearProducto(Producto producto)
+        [HttpPost]
+        public IActionResult CrearNuevoProducto( [FromBody] Producto producto)
         {
             if (producto == null)
             {

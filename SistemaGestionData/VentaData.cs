@@ -86,10 +86,12 @@ namespace SistemaGestionData
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
             var query = "INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)";
+            
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
