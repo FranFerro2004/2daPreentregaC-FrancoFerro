@@ -16,10 +16,7 @@ namespace SistemaGestionBusiness
             return ProductoVendidoData.ListarProductosVendidos();
         }
 
-        public static void CrearProductoVendido(ProductoVendido productoVendido)
-        {
-            ProductoVendidoData.CrearProductoVendido(productoVendido);
-        }
+        
 
         public static void ModificarProductoVendido(ProductoVendido productoVendido)
         {

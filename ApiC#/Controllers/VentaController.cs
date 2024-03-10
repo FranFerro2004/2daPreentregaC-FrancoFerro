@@ -5,27 +5,36 @@ using SistemaGestionEntidades;
 namespace ApiC_.Controllers
 {
     [ApiController]
-    [Route("api/Ventas")]
+    [Route("api/Venta")]
     public class VentasController : Controller
     {
-        [HttpGet("/ListarVentas")]
-        public List<Venta> ListarTodasVentas()
+        [HttpGet("{idUsuario}")]
+        public ActionResult<List<Venta>> ObtenerVentaPorIdDeUsuario(int idUsuario)
         {
-            return VentaBusiness.ListarVentas();
-        }
-
-        [HttpGet("/ObtenerVenta/{id}")]
-        public IActionResult ObtenerVentaPorId(int IdVenta)
-        {
-            var venta = VentaBusiness.ObtenerVenta(IdVenta);
-
-            if (venta == null)
+            try
             {
-                return NotFound();
+                if (idUsuario <= 0)
+                {
+                    return BadRequest("Id no puede ser menos o igual a 0");
+                }
+
+                var lista = VentaBusiness.ListarVentasPorIdDeUsuario(idUsuario);
+
+                if (lista.Count == 0)            
+                {
+                    return NotFound($"No se encontraron productos para el usuario con ID {idUsuario}");
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
             }
 
-            return Ok(venta);
+
         }
+
 
         [HttpDelete("/BorrarVentaPorId/{id}")]
         public IActionResult BorrarVentaPorId(int id)
@@ -55,18 +64,37 @@ namespace ApiC_.Controllers
             }
         }
 
-        [HttpPost("/CrearVenta")]
-        public IActionResult CrearVenta(Venta venta)
+
+        [HttpPost("{idUsuario}")]
+        public IActionResult CrearVenta(int idUsuario, [FromBody] List<Producto> productos)
         {
-            if (venta == null)
+            if (productos.Count == 0)
             {
-                return BadRequest("Datos de venta no válidos");
+                return BadRequest("No se recibieron productos");
             }
 
-            VentaBusiness.CrearVenta(venta);
+            try
+            {
+                bool resultado = VentaBusiness.CrearVenta(idUsuario, productos);
 
-            return CreatedAtAction(nameof(ObtenerVentaPorId), new { id = venta.ID }, venta);
+                if (resultado)
+                {
+                    return Ok("Venta creada exitosamente");
+                }
+                else
+                {
+                    return StatusCode(500, "Error al crear la venta");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
         }
+
+
+
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using SistemaGestionEntidades;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -48,11 +49,11 @@ namespace SistemaGestionData
             return lista;
         }
 
-        public static List<Venta> ListarVentas()
+        public static List<Venta> ListarVentasPorIdDeUsuario(int idUsuario)
         {
             List<Venta> lista = new List<Venta>();
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Comentarios, IdUsuario FROM Venta";
+            var query = "SELECT Id, Comentarios, IdUsuario FROM Venta WHERE IdUsuario = @Idusuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -60,6 +61,9 @@ namespace SistemaGestionData
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
+                    comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.Int)  {Value = idUsuario });
+
+
                     using (SqlDataReader dr = comando.ExecuteReader())
                     {
                         if (dr.HasRows)
@@ -82,28 +86,36 @@ namespace SistemaGestionData
             return lista;
         }
 
-        public static void CrearVenta(Venta venta)
+        public static void CrearVenta(int idUsuario, List<Producto> productos)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
             var query = "INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)";
-            
+
+            string nombreProductos = string.Join(" // ", productos.Select(p => $"{p.Descripcion}"));
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
-                    comando.Parameters.Add(new SqlParameter("Comentarios", SqlDbType.VarChar) { Value = venta.Comentarios });
-                    comando.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = venta.IDUsuario });
+                    comando.Parameters.Add(new SqlParameter("@Comentarios", SqlDbType.VarChar) { Value = nombreProductos });
+                    comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.Int) { Value = idUsuario });
 
-                    comando.ExecuteNonQuery();
+
+
+                    int idVenta = Convert.ToInt32(comando.ExecuteScalar());
+
+                    
+                    ProductoVendidoData.CrearProductoVendido(idVenta, productos);
+                    
                 }
 
                 connection.Close();
             }
         }
+
+
 
         public static void ModificarVenta(Venta venta)
         {

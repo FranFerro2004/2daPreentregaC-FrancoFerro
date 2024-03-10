@@ -6,7 +6,7 @@ using SistemaGestionBusiness;
 namespace ApiC_.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Producto")]
     
     public class ProductosController : Controller
     {
@@ -50,11 +50,11 @@ namespace ApiC_.Controllers
             return Ok(producto); 
         }
 
-        [HttpDelete("{idProducto}")]
-        public IActionResult BorrarProductoPorId(int IdProducto)
+        [HttpDelete("{id}")]
+        public IActionResult BorrarProductoPorId(int Id)
         {
            
-            ProductoBusiness.EliminarProducto(IdProducto);
+            ProductoBusiness.EliminarProducto(Id);
 
             
             return NoContent(); 

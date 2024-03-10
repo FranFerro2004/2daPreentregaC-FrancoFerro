@@ -65,20 +65,16 @@ namespace SistemaGestionData
 
             List<Producto> lista = new List<Producto>();
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, Descripciones, Costo, PrecioVenta, Stock, IdUsuario FROM Producto WHERE idUsuario = @idUsuario";
+            var query = "SELECT Id, Descripciones, Costo, PrecioVenta, Stock, IdUsuario FROM Producto WHERE IdUsuario = @idUsuario";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                using (SqlCommand comando = new SqlCommand(query, connection))
+                using (SqlCommand comando = new SqlCommand(query, connection))                   
 
                 {
-
-                    var parametro = new SqlParameter();
-                    parametro.ParameterName = "IdUsuario";
-                    parametro.SqlDbType = SqlDbType.Int;
-                    parametro.Value = idUsuario;
+                    comando.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = idUsuario });
 
                     using (SqlDataReader dr = comando.ExecuteReader())
                     {
@@ -129,7 +125,7 @@ namespace SistemaGestionData
                     comando.Parameters.Add(new SqlParameter("PrecioVenta", SqlDbType.Money) { Value = producto.PrecioVenta });
                     comando.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int) { Value = producto.Stock });
                     comando.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = producto.IdUsuario });
-                    comando.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = producto.IdUsuario });
+                    
 
 
                     comando.ExecuteNonQuery();
@@ -175,32 +171,22 @@ namespace SistemaGestionData
 
 
 
-        public static void EliminarProducto(Producto Producto)
+        public static void EliminarProducto(int id)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
+            var deleteProductoQuery = "DELETE FROM Producto WHERE Id = @Id";
 
-            var ProductosVendidosQuery = "DELETE FROM ProductoVendido WHERE IdProducto = @Id";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection conexion = new SqlConnection(connectionString))
             {
-                connection.Open();
+                conexion.Open();
 
-                using (SqlCommand comandoProductosVendidos = new SqlCommand(ProductosVendidosQuery, connection))
+                using (SqlCommand comando = new SqlCommand(deleteProductoQuery, conexion))
                 {
-                    comandoProductosVendidos.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = Producto.Id });
-                    comandoProductosVendidos.ExecuteNonQuery();
-                }
-
-                
-                var deleteProductoQuery = "DELETE FROM Producto WHERE Id = @Id";
-
-                using (SqlCommand comando = new SqlCommand(deleteProductoQuery, connection))
-                {
-                    comando.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = Producto.Id });
+                    comando.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = id });
                     comando.ExecuteNonQuery();
                 }
 
-                connection.Close();
+                conexion.Close();
             }
         }
 

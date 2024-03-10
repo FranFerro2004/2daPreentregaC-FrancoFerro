@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SistemaGestionBusiness;
 using SistemaGestionEntidades;
 
@@ -6,7 +7,7 @@ using SistemaGestionEntidades;
 namespace ApiC_.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Usuario")]
     
     public class UsuariosController : Controller
     {
@@ -35,25 +36,19 @@ namespace ApiC_.Controllers
 
 
         [HttpGet("{usuario}/{password}")]
-        public IActionResult ObtenerUsuarioPorUsuarioYPassword(string usuario, string password)
+        public ActionResult<Usuario> ObtenerUsuarioPorUsuarioYPassword(string usuario, string password)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
+              if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(password))
                 {
                     return BadRequest("Usuario o Password están vacíos");
                 }
 
-                var usuarioObtenido = UsuarioBusiness.ObtenerUsuarioPorUsuarioYPassword(usuario, password);
 
-                if (usuarioObtenido != null)
-                {
-                    return Ok(usuarioObtenido);
-                }
-                else
-                {
-                    return NotFound("Usuario no encontrado");
-                }
+            try
+            {
+
+                return  UsuarioBusiness.ObtenerUsuarioPorUsuarioYPassword(usuario, password);             
+               
             }
             catch (Exception ex)
             {

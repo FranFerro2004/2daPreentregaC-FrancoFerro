@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using SistemaGestionEntidades;
+using System;
 
 namespace SistemaGestionData
 {
@@ -81,26 +82,31 @@ namespace SistemaGestionData
             return lista;
         }
 
-        public static void CrearProductoVendido(ProductoVendido productoVendido)
+        public static void CrearProductoVendido(int idVenta, List<Producto> productos)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "INSERT INTO ProductoVendido (IdProducto, Stock, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
+            var query = "INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                using (SqlCommand comando = new SqlCommand(query, connection))
+                foreach (var producto in productos)
                 {
-                    comando.Parameters.Add(new SqlParameter("@IdProducto", SqlDbType.Int) { Value = productoVendido.IdProducto });
-                    comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.Int) { Value = productoVendido.Stock });
+                    using (SqlCommand comando = new SqlCommand(query, connection))
+                    {
+                        comando.Parameters.Add(new SqlParameter("@IdProducto", SqlDbType.Int) { Value = producto.Id });
+                        comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.Int) { Value = producto.Stock });
+                        comando.Parameters.Add(new SqlParameter("@IdVenta", SqlDbType.Int) { Value = idVenta });
 
-                    comando.ExecuteNonQuery();
+                        comando.ExecuteNonQuery();
+                    }
                 }
 
                 connection.Close();
             }
         }
+
 
         public static void ModificarProductoVendido(ProductoVendido productoVendido)
         {

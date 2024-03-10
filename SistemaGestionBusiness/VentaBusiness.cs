@@ -10,15 +10,12 @@ namespace SistemaGestionBusiness
             return VentaData.ObtenerVenta(IdVenta);
         }
 
-        public static List<Venta> ListarVentas()
+        public static List<Venta> ListarVentasPorIdDeUsuario(int idUsuario)
         {
-            return VentaData.ListarVentas();
+            return VentaData.ListarVentasPorIdDeUsuario(idUsuario);
         }
 
-        public static void CrearVenta(Venta venta)
-        {
-            VentaData.CrearVenta(venta);
-        }
+        
 
         public static bool ModificarVenta(Venta venta)
         {
@@ -41,5 +38,26 @@ namespace SistemaGestionBusiness
             VentaData.EliminarVenta(new Venta { ID = IdVenta });
 
         }
+
+        public static bool CrearVenta(int idUsuario, List<Producto> productos) 
+        {
+            try
+            {
+
+                VentaData.CrearVenta(idUsuario, productos);
+                return true;
+            }
+            catch
+            {
+
+                return false;
+
+            }
+        
+        }
+        
+        
+
+
     }
 }

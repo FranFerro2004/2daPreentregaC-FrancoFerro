@@ -5,9 +5,9 @@ namespace SistemaGestionBusiness
 {
     public static class ProductoBusiness
     {
-        public static List<Producto> ObtenerProducto(int IdProducto)
+        public static List<Producto> ObtenerProducto(int Id)
         {
-            return ProductoData.ObtenerProducto(IdProducto);
+            return ProductoData.ObtenerProducto(Id);
         }
 
         public static List<Producto> ListarProductosPorIdDeUsuario(int idUsuario)
@@ -33,9 +33,9 @@ namespace SistemaGestionBusiness
             }
         }
 
-        public static void EliminarProducto(int IdProducto)
+        public static void EliminarProducto(int id)
         {
-            ProductoData.EliminarProducto(new Producto { Id = IdProducto });
+            ProductoData.EliminarProducto(id);
         }
     }
 }

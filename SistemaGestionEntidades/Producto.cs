@@ -10,7 +10,7 @@ namespace SistemaGestionEntidades
     {
 
         private int _id;
-        private string _descripcion;
+        private string _descripciones;
         private double _costo;
         private double _precioVenta;
         private int _stock;
@@ -19,7 +19,7 @@ namespace SistemaGestionEntidades
         public Producto()
         {
             _id = 0;
-            _descripcion = string.Empty;
+            _descripciones = string.Empty;
             _costo = 0;
             _precioVenta = 0;
             _stock = 0;
@@ -30,7 +30,7 @@ namespace SistemaGestionEntidades
         public Producto(int id, string descripcion, double costo, double precioVenta, int stock, int idUsuario)
         {
             this._id = id;
-            this._descripcion = descripcion;
+            this._descripciones = descripcion;
             this._costo = costo;
             this._precioVenta = precioVenta;
             this._stock = stock;
@@ -46,8 +46,8 @@ namespace SistemaGestionEntidades
 
         public string Descripcion
         {
-            get { return _descripcion; }
-            set { _descripcion = value; }
+            get { return _descripciones; }
+            set { _descripciones = value; }
         }
 
         public double Costo
