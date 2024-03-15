@@ -10,11 +10,11 @@ namespace ApiC_.Controllers
 
     public class ProductoVendidoController : Controller
     {
-        [HttpGet("/ListarProductosVendidos")]
-        public List<ProductoVendido> ListarProductosVendidos()        
+        [HttpGet("{idUsuario}")]
+        public List<ProductoVendido> ListarProductosVendidos(int idUsuario)        
         {
 
-            return ProductoVendidoBusiness.ListarProductosVendidos();
+            return ProductoVendidoBusiness.ListarProductosVendidos(idUsuario);
            
         }
 

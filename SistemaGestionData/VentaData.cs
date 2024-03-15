@@ -141,21 +141,30 @@ namespace SistemaGestionData
         public static void EliminarVenta(Venta venta)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "DELETE FROM Venta WHERE Id = @Id";
+            var deleteVentaQuery = "DELETE FROM Venta WHERE Id = @Id";
+            var deleteProductosVendidosQuery = "DELETE FROM ProductoVendido WHERE IdVenta = @IdVenta";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                using (SqlCommand comando = new SqlCommand(query, connection))
+                
+                using (SqlCommand comandoProductosVendidos = new SqlCommand(deleteProductosVendidosQuery, connection))
                 {
-                    comando.Parameters.Add(new SqlParameter("Id", SqlDbType.Int) { Value = venta.ID });
+                    comandoProductosVendidos.Parameters.Add(new SqlParameter("@IdVenta", SqlDbType.Int) { Value = venta.ID });
+                    comandoProductosVendidos.ExecuteNonQuery();
+                }
 
-                    comando.ExecuteNonQuery();
+                
+                using (SqlCommand comandoVenta = new SqlCommand(deleteVentaQuery, connection))
+                {
+                    comandoVenta.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = venta.ID });
+                    comandoVenta.ExecuteNonQuery();
                 }
 
                 connection.Close();
             }
         }
+
     }
 }

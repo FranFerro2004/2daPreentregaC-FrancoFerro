@@ -11,9 +11,9 @@ namespace SistemaGestionBusiness
             return ProductoVendidoData.ObtenerProductoVendido(IdProductoVendido);
         }
 
-        public static List<ProductoVendido> ListarProductosVendidos()
+        public static List<ProductoVendido> ListarProductosVendidos(int idUsuario)
         {
-            return ProductoVendidoData.ListarProductosVendidos();
+            return ProductoVendidoData.ListarProductosVendidos(idUsuario);
         }
 
         

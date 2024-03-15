@@ -48,12 +48,16 @@ namespace SistemaGestionData
             return lista;
         }
 
-        public static List<ProductoVendido> ListarProductosVendidos()
+        public static List<ProductoVendido> ListarProductosVendidos(int idUsuario)
         {
             List<ProductoVendido> lista = new List<ProductoVendido>();
 
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "SELECT Id, IdProducto, Stock, IdVenta FROM ProductoVendido";
+            var query = @"SELECT ProductoVendido.Id, ProductoVendido.IdProducto, ProductoVendido.Stock, ProductoVendido.IdVenta 
+                        FROM ProductoVendido
+                        INNER JOIN Venta ON ProductoVendido.IdVenta = Venta.Id
+                        WHERE Venta.IdUsuario = @idUsuario";
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -61,6 +65,10 @@ namespace SistemaGestionData
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
+
+                    comando.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int) { Value = idUsuario });
+
+
                     using (SqlDataReader dr = comando.ExecuteReader())
                     {
                         if (dr.HasRows)
