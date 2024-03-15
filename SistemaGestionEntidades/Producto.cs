@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SistemaGestionEntidades
 {
     public class Producto
     {
-
         private int _id;
         private string _descripciones;
         private double _costo;
@@ -24,18 +19,16 @@ namespace SistemaGestionEntidades
             _precioVenta = 0;
             _stock = 0;
             _idUsuario = 0;
-
         }
 
-        public Producto(int id, string descripcion, double costo, double precioVenta, int stock, int idUsuario)
+        public Producto(int id, string descripciones, double costo, double precioVenta, int stock, int idUsuario)
         {
             this._id = id;
-            this._descripciones = descripcion;
+            this._descripciones = descripciones;
             this._costo = costo;
             this._precioVenta = precioVenta;
             this._stock = stock;
             this._idUsuario = idUsuario;
-
         }
 
         public int Id
@@ -44,7 +37,7 @@ namespace SistemaGestionEntidades
             set { _id = value; }
         }
 
-        public string Descripcion
+        public string Descripciones 
         {
             get { return _descripciones; }
             set { _descripciones = value; }
@@ -73,11 +66,12 @@ namespace SistemaGestionEntidades
             get { return _idUsuario; }
             set { _idUsuario = value; }
         }
-
-
-
-
-
-
     }
 }
+
+
+
+
+
+
+

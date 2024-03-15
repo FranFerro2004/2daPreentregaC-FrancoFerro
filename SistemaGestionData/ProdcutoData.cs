@@ -39,7 +39,7 @@ namespace SistemaGestionData
                             {
                                 var producto = new Producto();
                                 producto.Id = Convert.ToInt32(dr["Id"]);
-                                producto.Descripcion = dr["Descripciones"].ToString();
+                                producto.Descripciones = dr["Descripciones"].ToString();
                                 producto.Costo = Convert.ToDouble(dr["Costo"]);
                                 producto.PrecioVenta = Convert.ToInt32(dr["PrecioVenta"]);
                                 producto.Stock = Convert.ToInt32(dr["Stock"]);
@@ -85,7 +85,7 @@ namespace SistemaGestionData
                             {
                                 var producto = new Producto();
                                 producto.Id = Convert.ToInt32(dr["Id"]);
-                                producto.Descripcion = dr["Descripciones"].ToString();
+                                producto.Descripciones = dr["Descripciones"].ToString();
                                 producto.Costo = Convert.ToDouble(dr["Costo"]);
                                 producto.PrecioVenta = Convert.ToInt32(dr["PrecioVenta"]);
                                 producto.Stock = Convert.ToInt32(dr["Stock"]);
@@ -120,11 +120,11 @@ namespace SistemaGestionData
 
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
-                    comando.Parameters.Add(new SqlParameter("Descripciones", SqlDbType.VarChar) { Value = producto.Descripcion });
-                    comando.Parameters.Add(new SqlParameter("Costo", SqlDbType.Money) { Value = producto.Costo });
-                    comando.Parameters.Add(new SqlParameter("PrecioVenta", SqlDbType.Money) { Value = producto.PrecioVenta });
-                    comando.Parameters.Add(new SqlParameter("Stock", SqlDbType.Int) { Value = producto.Stock });
-                    comando.Parameters.Add(new SqlParameter("IdUsuario", SqlDbType.Int) { Value = producto.IdUsuario });
+                    comando.Parameters.Add(new SqlParameter("@Descripciones", SqlDbType.VarChar) { Value = producto.Descripciones });
+                    comando.Parameters.Add(new SqlParameter("@Costo", SqlDbType.Money) { Value = producto.Costo });
+                    comando.Parameters.Add(new SqlParameter("@PrecioVenta", SqlDbType.Money) { Value = producto.PrecioVenta });
+                    comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.Int) { Value = producto.Stock });
+                    comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.Int) { Value = producto.IdUsuario });
                     
 
 
@@ -156,7 +156,7 @@ namespace SistemaGestionData
                 using (SqlCommand comando = new SqlCommand(query, connection))
                 {
                     comando.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = producto.Id });
-                    comando.Parameters.Add(new SqlParameter("@Descripciones", SqlDbType.VarChar) { Value = producto.Descripcion });
+                    comando.Parameters.Add(new SqlParameter("@Descripciones", SqlDbType.VarChar) { Value = producto.Descripciones });
                     comando.Parameters.Add(new SqlParameter("@Costo", SqlDbType.Money) { Value = producto.Costo });
                     comando.Parameters.Add(new SqlParameter("@PrecioVenta", SqlDbType.Money) { Value = producto.PrecioVenta });
                     comando.Parameters.Add(new SqlParameter("@Stock", SqlDbType.Int) { Value = producto.Stock });

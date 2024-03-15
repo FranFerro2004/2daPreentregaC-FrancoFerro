@@ -85,7 +85,7 @@ namespace SistemaGestionData
         public static void CrearProductoVendido(int idVenta, List<Producto> productos)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "INSERT INTO ProductoVendido (Stock, IdProducto, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
+            var query = "INSERT INTO ProductoVendido (IdProducto, Stock, IdVenta) VALUES (@IdProducto, @Stock, @IdVenta)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -106,6 +106,7 @@ namespace SistemaGestionData
                 connection.Close();
             }
         }
+
 
 
         public static void ModificarProductoVendido(ProductoVendido productoVendido)

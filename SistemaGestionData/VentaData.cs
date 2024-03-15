@@ -86,12 +86,13 @@ namespace SistemaGestionData
             return lista;
         }
 
-        public static void CrearVenta(int idUsuario, List<Producto> productos)
+
+        public static int CrearVenta(int idUsuario, List<Producto> productos)
         {
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=coderhouse;Trusted_Connection=True;";
-            var query = "INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario)";
+            var query = "INSERT INTO Venta (Comentarios, IdUsuario) VALUES (@Comentarios, @IdUsuario); SELECT SCOPE_IDENTITY();";
 
-            string nombreProductos = string.Join(" // ", productos.Select(p => $"{p.Descripcion}"));
+            string nombreProductos = string.Join(" // ", productos.Select(p => p.Descripciones));
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -102,16 +103,14 @@ namespace SistemaGestionData
                     comando.Parameters.Add(new SqlParameter("@Comentarios", SqlDbType.VarChar) { Value = nombreProductos });
                     comando.Parameters.Add(new SqlParameter("@IdUsuario", SqlDbType.Int) { Value = idUsuario });
 
-
-
+                    
                     int idVenta = Convert.ToInt32(comando.ExecuteScalar());
 
-                    
+                   
                     ProductoVendidoData.CrearProductoVendido(idVenta, productos);
-                    
-                }
 
-                connection.Close();
+                    return idVenta; 
+                }
             }
         }
 
